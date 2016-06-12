@@ -51,12 +51,8 @@ public class HueListener implements PHSDKListener {
         System.out.println("Authentication required. Please push link button within 30 seconds ");
         hue.setAppName("hue-app");
         hue.setDeviceName("Java-PC");
+
         hue.startPushlinkAuthentication(phAccessPoint);
-        while (!hue.isAccessPointConnected(phAccessPoint))
-        {
-            System.out.println("Connecting...");
-            try {Thread.sleep(1000);} catch (InterruptedException ex){ex.getCause();}
-        }
 
 
 /*

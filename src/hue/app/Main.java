@@ -1,6 +1,7 @@
 package hue.app;
 
 import com.philips.lighting.hue.sdk.*;
+import com.philips.lighting.model.PHBridge;
 
 import java.io.*;
 
@@ -16,6 +17,7 @@ public class Main {
         PHBridgeSearchManager sdkService = (PHBridgeSearchManager) hue.getSDKService(PHHueSDK.SEARCH_BRIDGE);
         PHNotificationManager myHue = PHNotificationManager.getDefaultManager();
         myHue.registerSDKListener(new HueListener(sdkService, hueData));
+
 
         sdkService.setPortalAddress("127.0.0.1");
 
@@ -36,8 +38,7 @@ public class Main {
         hue.connect(hueData.getBridgeList().get(input));
 
 
-
-        hue.destroySDK();
+        //hue.destroySDK();
     }
 }
 

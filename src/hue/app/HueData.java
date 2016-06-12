@@ -20,6 +20,10 @@ class HueData {
         this.selectedBridge = b;
     }
 
+    public PHBridge getSelectedBridge() {
+        return this.selectedBridge;
+    }
+
     public void setSearchDone(boolean done){
         this.searchDone = done;
     }
