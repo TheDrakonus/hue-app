@@ -15,14 +15,16 @@ public class HueListener implements PHSDKListener {
 
     private HashMap<String, PHAccessPoint> bridgeList = new HashMap<>();
     private PHBridge connectedBridge = null;
-    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader br;
     private PHHueSDK hue = null;
     private PHBridgeSearchManager sdkService;
+    private HueData hueData;
 
-    public HueListener(PHHueSDK hue, PHBridgeSearchManager sdkService) {
+    public HueListener(PHHueSDK hue, PHBridgeSearchManager sdkService, HueData hueData) {
 
         this.hue = hue;
         this.sdkService = sdkService;
+        this.hueData = hueData;
 
     }
 
@@ -51,7 +53,9 @@ public class HueListener implements PHSDKListener {
 
         try
         {
+            br = new BufferedReader(new InputStreamReader(System.in));
             user = br.readLine();
+            br.close();
         }
         catch(IOException io)
         {
@@ -68,11 +72,12 @@ public class HueListener implements PHSDKListener {
 
         bridgeList.clear();
         for (PHAccessPoint point : list) {
-            System.out.println(point.getBridgeId());
-            System.out.println(point.getIpAddress());
-            bridgeList.put(point.getBridgeId(), point);
+            //System.out.println(point.getBridgeId());
+            //System.out.println(point.getIpAddress());
+            bridgeList.put(point.getIpAddress(), point);
         }
-
+        hueData.setBridgeList(bridgeList);
+        hueData.setSearchDone(true);
     }
 
     @Override
@@ -93,6 +98,7 @@ public class HueListener implements PHSDKListener {
         char choice = ' ';
         try
         {
+            br = new BufferedReader(new InputStreamReader(System.in));
             choice = br.readLine().charAt(0);
         }
         catch(IOException io)
@@ -118,4 +124,7 @@ public class HueListener implements PHSDKListener {
     public void onParsingErrors(List<PHHueParsingError> list) {
 
     }
+
+
+
 }
