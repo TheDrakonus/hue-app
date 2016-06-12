@@ -20,9 +20,9 @@ public class HueListener implements PHSDKListener {
     private PHBridgeSearchManager sdkService;
     private HueData hueData;
 
-    public HueListener(PHHueSDK hue, PHBridgeSearchManager sdkService, HueData hueData) {
+    public HueListener(PHBridgeSearchManager sdkService, HueData hueData) {
 
-        this.hue = hue;
+        this.hue = PHHueSDK.getInstance();
         this.sdkService = sdkService;
         this.hueData = hueData;
 
@@ -38,17 +38,28 @@ public class HueListener implements PHSDKListener {
     @Override
     public void onBridgeConnected(PHBridge phBridge, String s) {
 
+        hue.setSelectedBridge(phBridge);
+        hue.enableHeartbeat(phBridge, PHHueSDK.HB_INTERVAL);
+        hueData.setSelectedBridge(phBridge);
         System.out.println("Bridge Connected!");
-        connectedBridge = phBridge;
-
+        System.out.println("UserName: " + s);
     }
 
     @Override
     public void onAuthenticationRequired(PHAccessPoint phAccessPoint) {
 
-        System.out.println("Authentication required. Please input UserName: ");
+        System.out.println("Authentication required. Please push link button within 30 seconds ");
+        hue.setAppName("hue-app");
+        hue.setDeviceName("Java-PC");
+        hue.startPushlinkAuthentication(phAccessPoint);
+        while (!hue.isAccessPointConnected(phAccessPoint))
+        {
+            System.out.println("Connecting...");
+            try {Thread.sleep(1000);} catch (InterruptedException ex){ex.getCause();}
+        }
 
 
+/*
         String user = null;
 
         try
@@ -63,6 +74,7 @@ public class HueListener implements PHSDKListener {
         }
 
         phAccessPoint.setUsername(user);
+        */
     }
 
 
@@ -82,7 +94,7 @@ public class HueListener implements PHSDKListener {
 
     @Override
     public void onError(int i, String s) {
-
+        System.out.println(s);
     }
 
     @Override

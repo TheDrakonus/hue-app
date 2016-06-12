@@ -15,9 +15,9 @@ public class Main {
         PHHueSDK hue = PHHueSDK.create();
         PHBridgeSearchManager sdkService = (PHBridgeSearchManager) hue.getSDKService(PHHueSDK.SEARCH_BRIDGE);
         PHNotificationManager myHue = PHNotificationManager.getDefaultManager();
-        myHue.registerSDKListener(new HueListener(hue, sdkService, hueData));
+        myHue.registerSDKListener(new HueListener(sdkService, hueData));
 
-        sdkService.setPortalAddress("192.168.0.1");
+        sdkService.setPortalAddress("127.0.0.1");
 
 
         System.out.println("Searching for APs...");
@@ -33,9 +33,7 @@ public class Main {
         String input = null;
         try { br = new BufferedReader(new InputStreamReader(System.in)); input = br.readLine(); br.close();} catch (IOException ex) {ex.getCause();}
 
-
-
-        System.out.println(input);
+        hue.connect(hueData.getBridgeList().get(input));
 
 
 

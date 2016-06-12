@@ -1,6 +1,7 @@
 package hue.app;
 
 import com.philips.lighting.hue.sdk.PHAccessPoint;
+import com.philips.lighting.model.PHBridge;
 
 import java.util.HashMap;
 
@@ -12,7 +13,12 @@ class HueData {
     private HashMap<String, PHAccessPoint> bridgeList = new HashMap<>();
     private PHAccessPoint selectedAP = null;
     private boolean searchDone = false;
+    private PHBridge selectedBridge = null;
 
+
+    public void setSelectedBridge(PHBridge b) {
+        this.selectedBridge = b;
+    }
 
     public void setSearchDone(boolean done){
         this.searchDone = done;
